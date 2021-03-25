@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfSmsApp.View;
 
 namespace WpfSmsApp
 {
@@ -24,6 +25,21 @@ namespace WpfSmsApp
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+       
+        private void MetroWindow_Activated(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void MetroWindow_ContentRendered(object sender, EventArgs e)
+        {
+            LoginView loginView = new LoginView();
+            loginView.Owner = this;
+            loginView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            loginView.ShowDialog();
+            
         }
     }
 }

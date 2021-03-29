@@ -26,16 +26,6 @@ namespace WpfSmsApp.View
             InitializeComponent();
             Common.LOGGER.Info("LoginView Initialized");
         }
-
-        private async void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-            var result = await this.ShowMessageAsync("종료", "종료하시겠습니까?", 
-                MessageDialogStyle.AffirmativeAndNegative, null);
-
-            if (result == MessageDialogResult.Affirmative) 
-                Application.Current.Shutdown(0); // 프로그램 종료
-        }
-
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             lblResult.Visibility = Visibility.Hidden; // 결과 레이블 숨김
@@ -52,10 +42,10 @@ namespace WpfSmsApp.View
             {
                 var email = txtUserEmail.Text;
                 var password = txtPassword.Password;
-                
+
                 var isOurUser = Logic.DataAccess.GetUsers()
                     .Where(u => u.UserEmail.Equals(email)
-                    && u.UserPassword.Equals(password) 
+                    && u.UserPassword.Equals(password)
                     && u.UserActivated == true).Count();
 
                 if (isOurUser == 0)
@@ -65,7 +55,8 @@ namespace WpfSmsApp.View
                     Common.LOGGER.Warn("ID/PW 불일치");
                     return;
                 }
-                else {
+                else
+                {
                     Common.LOGINED_USER = Logic.DataAccess.GetUsers().Where(u => u.UserEmail.Equals(email)).FirstOrDefault();
                     Common.LOGGER.Info($"{email} 접속");
                     this.Visibility = Visibility.Hidden;
@@ -75,23 +66,32 @@ namespace WpfSmsApp.View
             {
                 // 예외처리
                 Common.LOGGER.Error($"예외 발생 : {ex}");
-                await this.ShowMessageAsync("예외", $"예외 발생 {ex}");
+                await this.ShowMessageAsync("예외", $"예외 발생 LoginView : {ex}");
             }
             // this.Close();
         }
+        private async void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await this.ShowMessageAsync("종료", "종료하시겠습니까?", 
+                MessageDialogStyle.AffirmativeAndNegative, null);
 
+            if (result == MessageDialogResult.Affirmative)
+            {
+                Common.LOGGER.Info("LogOut");
+                Application.Current.Shutdown(0); // 프로그램 종료
+            }
+                
+        }
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             txtUserEmail.Focus();
             lblResult.Visibility = Visibility.Hidden;
         }
-
         private void txtUserEmail_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 txtPassword.Focus();
         }
-
         private void txtPassword_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

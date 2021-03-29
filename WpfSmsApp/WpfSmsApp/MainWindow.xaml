@@ -8,9 +8,15 @@
         xmlns:local="clr-namespace:WpfSmsApp"
         mc:Ignorable="d" Icon="/Resources/stock.png"
         Title="Stock Management System" Height="720" Width="1280" 
-        ContentRendered="MetroWindow_ContentRendered"
+        ContentRendered="MetroWindow_ContentRendered" Activated="MetroWindow_Activated"
         WindowStartupLocation="CenterScreen">
-    <DockPanel>
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <Button x:Name="btnLoginedId"/>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
+
+        <DockPanel>
         <Grid DockPanel.Dock="Top" Height="80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -110,7 +116,8 @@
             </Button>
             <Button Name="btnAccount" Grid.Column="6" Content="계정" 
                     FontSize="18" Foreground="White" 
-                    Background="CornflowerBlue" Margin="5, 10">
+                    Background="CornflowerBlue" Margin="5, 10"
+                    Click="btnAccount_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -139,11 +146,7 @@
             </Button>
         </Grid>
         <Grid Background="WhiteSmoke">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="49*"/>
-                <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Name="activeControl" Grid.ColumnSpan="2"/>
+            <Frame Name="activeControl"/>
             <!--화면 전환-->
         </Grid>
     </DockPanel>

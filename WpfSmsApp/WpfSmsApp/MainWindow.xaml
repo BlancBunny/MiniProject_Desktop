@@ -124,7 +124,8 @@
             </Button>
             <Button Name="btnLogOut" Grid.Column="7" Content="로그아웃" 
                     FontSize="18" Foreground="White" 
-                    Background="Gray" Margin="5,10,10,10">
+                    Background="Gray" Margin="5,10,10,10"
+                    Click="btnLogOut_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -138,7 +139,12 @@
             </Button>
         </Grid>
         <Grid Background="WhiteSmoke">
-            <ContentControl Name="activeControl"/> <!--화면 전환-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="49*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Name="activeControl" Grid.ColumnSpan="2"/>
+            <!--화면 전환-->
         </Grid>
     </DockPanel>
 </mah:MetroWindow>

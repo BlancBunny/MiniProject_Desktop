@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,20 +27,25 @@ namespace WpfSmsApp
         {
             InitializeComponent();
         }
-
-       
-        private void MetroWindow_Activated(object sender, EventArgs e)
+        private void MetroWindow_ContentRendered(object sender, EventArgs e)
         {
-            
+            LoginViewOpen();
         }
 
-        private void MetroWindow_ContentRendered(object sender, EventArgs e)
+        private async void btnLogOut_Click(object sender, RoutedEventArgs e)
+        {
+            var result = await this.ShowMessageAsync("Log Out", "로그아웃 하시겠습니까?",
+                MessageDialogStyle.AffirmativeAndNegative, null);
+
+            if (result == MessageDialogResult.Affirmative)
+                LoginViewOpen();
+        }
+        private void LoginViewOpen()
         {
             LoginView loginView = new LoginView();
             loginView.Owner = this;
             loginView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             loginView.ShowDialog();
-            
         }
     }
 }

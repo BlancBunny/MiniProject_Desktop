@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using WpfSmsApp.Model;
 
 namespace WpfSmsApp
@@ -21,7 +22,13 @@ namespace WpfSmsApp
             }
             return builder.ToString();
         }
+        internal static bool IsValidEmail(string email)
+        {
+            return Regex.IsMatch(email, @"[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?");
+        }
     }
+
+    
 }
 
 

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WpfSmsApp.View.Account"
       mc:Ignorable="d" 
       d:DesignHeight="630" d:DesignWidth="1280"
-      Title="AccountView" Loaded="Page_Loaded">
+      Title="AccountView" Loaded="Page_Loaded" Background="AliceBlue">
     <Page.Resources>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="14"/>

@@ -9,8 +9,8 @@
     mc:Ignorable="d"
     Title="Login" Height="300" Width="400" 
     ShowMaxRestoreButton="False" ShowMinButton="False" ShowCloseButton="False" 
-    ResizeMode="NoResize" Loaded="MetroWindow_Loaded">
-    
+    ResizeMode="NoResize" Loaded="MetroWindow_Loaded" Background="White">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
@@ -21,9 +21,11 @@
         </Grid.RowDefinitions>
 
         <TextBox Name="txtUserEmail" Grid.Row="1" Margin="10"
-                 mah:TextBoxHelper.Watermark="UserEmail" KeyDown="txtUserEmail_KeyDown"/>
+                 mah:TextBoxHelper.Watermark="UserEmail" KeyDown="txtUserEmail_KeyDown"
+                 VerticalContentAlignment="Center" FontSize="15"/>
         <PasswordBox Name="txtPassword" Grid.Row="2" Margin="10"
-                 mah:TextBoxHelper.Watermark="Password" KeyDown="txtPassword_KeyDown"/>
+                 mah:TextBoxHelper.Watermark="Password" KeyDown="txtPassword_KeyDown"
+                 VerticalContentAlignment="Center" FontSize="15"/>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Name="btnLogin" Content="로그인"
                 Margin="5" Width="100" Height="40" FontSize="13"

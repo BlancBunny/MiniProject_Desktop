@@ -1,21 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfSmsApp.View;
 using WpfSmsApp.View.Account;
+using WpfSmsApp.View.User;
 
 namespace WpfSmsApp
 {
@@ -35,6 +24,8 @@ namespace WpfSmsApp
 
         private async void btnLogOut_Click(object sender, RoutedEventArgs e)
         {
+            // TODO : 모든 화면을 해제하고 첫화면으로. 
+
             var result = await this.ShowMessageAsync("LogOut", "로그아웃 하시겠습니까?",
                 MessageDialogStyle.AffirmativeAndNegative, null);
 
@@ -63,7 +54,7 @@ namespace WpfSmsApp
             loginView.ShowDialog();
         }
 
-        private void btnAccount_Click(object sender, RoutedEventArgs e)
+        private async void btnAccount_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -72,6 +63,22 @@ namespace WpfSmsApp
             catch (Exception ex)
             {
                 Common.LOGGER.Error($"예외 발생 : {ex}");
+                await this.ShowMessageAsync("예외 발생", $"btnAccount_Click 예외 발생",
+                    MessageDialogStyle.Affirmative, null);
+            }
+        }
+
+        private async void btnUser_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                activeControl.Content = new UserView();
+            }
+            catch (Exception ex)
+            {
+                Common.LOGGER.Error($"예외 발생 : {ex}");
+                await this.ShowMessageAsync("예외 발생", $"btnUser_Click 예외 발생", 
+                    MessageDialogStyle.Affirmative, null);
             }
         }
     }

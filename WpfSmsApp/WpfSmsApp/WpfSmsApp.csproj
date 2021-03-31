@@ -180,6 +180,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\DataAccess.cs" />
+    <Compile Include="View\Account\AccountEdit.xaml.cs">
+      <DependentUpon>AccountEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\User\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Account\AccountView.xaml.cs">
       <DependentUpon>AccountView.xaml</DependentUpon>
     </Compile>
@@ -199,6 +205,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Account\AccountEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\User\UserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Account\AccountView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

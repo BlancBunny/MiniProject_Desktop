@@ -15,14 +15,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfSmsApp.View.Account
+namespace WpfSmsApp.View.User
 {
     /// <summary>
     /// AccountView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AccountView : Page
+    public partial class UserView : Page
     {
-        public AccountView()
+        public UserView()
         {
             InitializeComponent();
         }
@@ -31,26 +31,31 @@ namespace WpfSmsApp.View.Account
         {
             try
             {
-                var user = Common.LOGINED_USER;
-                txtUserID.Text = user.UserID.ToString();
-                txtUserIdentityNumber.Text = user.UserIdentityNumber;
-                txtUserSurName.Text = user.UserSurname;
-                txtUserName.Text = user.UserName;
-                txtUserEmail.Text = user.UserEmail;
-                txtUserAdmin.Text = user.UserAdmin.ToString();
-                txtUserActivated.Text = user.UserActivated.ToString();
+                
             }
             catch (Exception ex)
             {
                 Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
                 var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 AccountView : {ex}");
+                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView : {ex}");
             }
         }
 
-        private void btnEditAccount_Click(object sender, RoutedEventArgs e)
+        private void btnAddUser_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new AccountEdit());
+
+        }
+        private void btnEditUser_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnDeactivateUser_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnExportPdf_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

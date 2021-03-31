@@ -16,8 +16,8 @@
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 
-        <DockPanel>
-        <Grid DockPanel.Dock="Top" Height="80">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top" Height="80" Background="AliceBlue">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -102,7 +102,8 @@
             </Button>
             <Button Name="btnUser" Grid.Column="5" Content="사용자" 
                     FontSize="18" Foreground="White" 
-                    Background="LightSteelBlue" Margin="5, 10">
+                    Background="LightSteelBlue" Margin="5, 10"
+                    Click="btnUser_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -145,8 +146,13 @@
                 </Button.ContentTemplate>
             </Button>
         </Grid>
-        <Grid Background="WhiteSmoke">
-            <Frame Name="activeControl"/>
+        <Grid Background="AliceBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="153*"/>
+                <ColumnDefinition Width="755*"/>
+                <ColumnDefinition Width="364*"/>
+            </Grid.ColumnDefinitions>
+            <Frame Name="activeControl" NavigationUIVisibility="Hidden" Grid.ColumnSpan="3"/>
             <!--화면 전환-->
         </Grid>
     </DockPanel>

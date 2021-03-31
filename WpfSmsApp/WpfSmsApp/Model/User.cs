@@ -31,5 +31,10 @@ namespace WpfSmsApp.Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookOut> BookOut { get; set; }
+
+        internal void SetUser(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

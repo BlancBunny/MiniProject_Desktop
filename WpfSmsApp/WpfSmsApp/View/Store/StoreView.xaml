@@ -1,0 +1,119 @@
+﻿<Page x:Class="WpfSmsApp.View.Store.StoreView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfSmsApp.View.Store" 
+      xmlns:local1="clr-namespace:WpfSmsApp.Helper" xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d" 
+      d:DesignHeight="630" d:DesignWidth="1280"
+      Title="StoreView" Loaded="Page_Loaded" Background="AliceBlue">
+    
+    
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="CadetBlue"/>
+            <Setter Property="Foreground" Value="white"/>
+            <Setter Property="Margin" Value="15,10,5,10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Height" Value="60"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="nanumgothic"/>
+        </Style>
+        <!--<Style x:Key="CenterGridHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>-->
+        
+        <local1:NameConverter x:Key="MyNameConverter"/>
+    </Page.Resources>
+    
+    
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="210"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        
+        <!--제목 입력 시작-->
+        <Label Grid.Column="1" Grid.Row="0" Content="창고 목록" 
+               FontSize="30" FontWeight="ExtraBold"
+               VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+        <!--제목 입력 끝-->
+        
+        <!--버튼 영역 시작-->
+        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2">
+            <Button Name="btnStoreAdd" Content="창고 추가"
+                    Click="btnStoreAdd_Click">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" Margin="5,0"/>
+                            <Image Source="/Resources/sign_add.png"
+                                   Width="20" Height="20"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button Name="btnStoreEdit" Content="창고 수정"
+                    Click="btnStoreEdit_Click">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" Margin="5,0"/>
+                            <iconPacks:PackIconVaadinIcons Kind="Stock" 
+                                                           Width="20" Height="20"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+            <Button Name="btnExportExcel" Content="EXCEL 파일 추출" 
+                    Background="Silver" Foreground="black"
+                    Click="btnExportExcel_Click">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding}" Margin="5,0"/>
+                            <iconPacks:PackIconModern Kind="OfficeExcel"
+                                                      Width="20" Height="20"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </StackPanel>
+        <!--버튼 영역 끝-->
+
+        <!--컨텐츠 영역 시작-->
+        <Grid Grid.Column="1" Grid.Row="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <DataGrid Name="grdStoreData" Grid.Row="1"
+                      AutoGenerateColumns="False" SelectionUnit="FullRow" 
+                      GridLinesVisibility="All" ItemsSource="{Binding}"
+                      Style="{StaticResource MahApps.Styles.DataGrid.Azure}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="순번" Width="60"
+                                        Binding="{Binding StoreID}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="창고명" Width="*"
+                                        Binding="{Binding StoreName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="창고 위치" Width="*"
+                                        Binding="{Binding StoreLocation}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="재고 수량" Width="*"
+                                        Binding="{Binding StockQuantity}" IsReadOnly="True"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <!--컨텐츠 영역 끝-->
+    </Grid>
+</Page>

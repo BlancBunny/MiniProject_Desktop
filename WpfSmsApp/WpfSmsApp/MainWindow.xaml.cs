@@ -4,6 +4,7 @@ using System;
 using System.Windows;
 using WpfSmsApp.View;
 using WpfSmsApp.View.Account;
+using WpfSmsApp.View.Store;
 using WpfSmsApp.View.User;
 
 namespace WpfSmsApp
@@ -30,6 +31,20 @@ namespace WpfSmsApp
         }
 
 
+        private async void btnStore_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                activeControl.Visibility = Visibility.Visible;
+                activeControl.Content = new StoreView();
+            }
+            catch (Exception ex)
+            {
+                Common.LOGGER.Error($"예외 발생 : {ex}");
+                await this.ShowMessageAsync("예외 발생", $"btnUser_Click 예외 발생",
+                    MessageDialogStyle.Affirmative, null);
+            }
+        }
         private async void btnUser_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -81,5 +96,7 @@ namespace WpfSmsApp
             loginView.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             loginView.ShowDialog();
         }
+
+        
     }
 }

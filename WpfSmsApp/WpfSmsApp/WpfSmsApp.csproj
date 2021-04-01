@@ -187,6 +187,13 @@
     </ApplicationDefinition>
     <Compile Include="Helper\NameConverter.cs" />
     <Compile Include="Logic\DataAccess.cs" />
+    <Compile Include="Model\StockStore.cs" />
+    <Compile Include="View\Store\StoreView.xaml.cs">
+      <DependentUpon>StoreView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Store\StoreAdd.xaml.cs">
+      <DependentUpon>StoreAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\User\UserDeactive.xaml.cs">
       <DependentUpon>UserDeactive.xaml</DependentUpon>
     </Compile>
@@ -221,6 +228,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Store\StoreView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Store\StoreAdd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\User\UserDeactive.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -325,6 +340,9 @@
     </EntityDeploy>
     <None Include="Model\SMSModel.edmx.diagram">
       <DependentUpon>SMSModel.edmx</DependentUpon>
+    </None>
+    <None Include="NanumGothicCoding.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

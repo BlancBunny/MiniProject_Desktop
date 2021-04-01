@@ -12,14 +12,14 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 
 
-namespace WpfSmsApp.View.User
+namespace WpfSmsApp.View.Store
 {
     /// <summary>
     /// AccountView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class UserView : Page
+    public partial class StoreView : Page
     {
-        public UserView()
+        public StoreView()
         {
             InitializeComponent();
         }
@@ -28,21 +28,42 @@ namespace WpfSmsApp.View.User
         {
             try
             {
-                rdoAll.IsChecked = true;
+                List<Model.Store> stores = new List<Model.Store>();
+                List<Model.StockStore> stockStores = new List<Model.StockStore>();
+                List<Model.Stock> stocks = new List<Model.Stock>();
+                stores = Logic.DataAccess.GetStores();
+                stocks = Logic.DataAccess.GetStocks();
+
+                // stores data를 stockStores 로 복사 
+                foreach (Model.Store item in stores)
+                {
+                    stockStores.Add(new Model.StockStore()
+                    {
+                        StoreID = item.StoreID,
+                        StoreName = item.StoreName,
+                        StoreLocation = item.StoreLocation,
+                        ItemStatus = item.ItemStatus,
+                        TagID = item.TagID,
+                        BarcodeID = item.BarcodeID,
+                        StockQuantity = 0
+                    });
+                }
+
+                this.DataContext = stockStores;
             }
             catch (Exception ex)
             {
-                Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
+                Common.LOGGER.Error($"예외 발생 AccountView : {ex.Message}");
                 var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView_Page_Loaded : {ex}");
+                await metroWindow.ShowMessageAsync("예외", $"예외 발생 StoreView_PageLoaded : {ex.Message}");
             }
         }
 
-        private async void btnAddUser_Click(object sender, RoutedEventArgs e)
+        private async void btnStoreAdd_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                NavigationService.Navigate(new UserAdd());
+                NavigationService.Navigate(new StoreAdd());
             }
             catch (Exception ex)
             {
@@ -51,11 +72,12 @@ namespace WpfSmsApp.View.User
                 await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView_btn_AddUser : {ex}");
             }
         }
-        private async void btnEditUser_Click(object sender, RoutedEventArgs e)
+
+        private async void btnStoreEdit_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                NavigationService.Navigate(new UserEdit());
+                // NavigationService.Navigate(new UserEdit());
             }
             catch (Exception ex)
             {
@@ -64,20 +86,8 @@ namespace WpfSmsApp.View.User
                 await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView_btn_EditUser : {ex}");
             }
         }
-        private async void btnDeactivateUser_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                NavigationService.Navigate(new UserDeactive());
-            }
-            catch (Exception ex)
-            {
-                Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
-                var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView_btn_DeactiveUser : {ex}");
-            }
-        }
-        private async void btnExportPdf_Click(object sender, RoutedEventArgs e)
+
+        private async void btnExportExcel_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "PDF File(*.pdf)|*.pdf";
@@ -99,28 +109,28 @@ namespace WpfSmsApp.View.User
 
                     // PDF 객체생성
                     Document pdfDoc = new Document(PageSize.A4);
-                    
+
 
                     // PDF 내용생성
                     Paragraph title = new Paragraph($"부경대 재고관리 시스템(SMS)\n", nanumTitle);
                     Paragraph subTitle = new Paragraph($"사용자 리스트 exported : {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n\n", nanumContents);
 
-                    PdfPTable pdfPTable = new PdfPTable(grdUserData.Columns.Count);
+                    PdfPTable pdfPTable = new PdfPTable(grdStoreData.Columns.Count);
                     pdfPTable.WidthPercentage = 100;
 
                     // 헤더 
-                    foreach (DataGridColumn column in grdUserData.Columns)
+                    foreach (DataGridColumn column in grdStoreData.Columns)
                     {
                         PdfPCell cell = new PdfPCell(new Phrase(column.Header.ToString(), nanumContents));
                         cell.HorizontalAlignment = Element.ALIGN_CENTER;
                         pdfPTable.AddCell(cell);
                     }
-                    
+
                     float[] widths = new float[] { 25f, 50f, 75f, 150f, 50f, 50f };
                     pdfPTable.SetWidths(widths);
 
                     // 그리드 
-                    foreach (var item in grdUserData.Items)
+                    foreach (var item in grdStoreData.Items)
                     {
                         if (item is Model.User)
                         {
@@ -174,66 +184,6 @@ namespace WpfSmsApp.View.User
                 }
             }
 
-            
-
-        }
-
-        private async void rdoAll_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                List<Model.User> users = new List<Model.User>();
-
-                if (rdoAll.IsChecked == true)
-                {
-                    users = Logic.DataAccess.GetUsers();
-                }
-                this.DataContext = users;
-            }
-            catch (Exception ex)
-            {
-                Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
-                var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView : {ex}");
-            }
-        }
-        private async void rdoActive_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                List<Model.User> users = new List<Model.User>();
-
-                if (rdoActive.IsChecked == true)
-                {
-                    users = Logic.DataAccess.GetUsers().Where(u=>u.UserActivated == true).ToList();
-                }
-                this.DataContext = users;
-            }
-            catch (Exception ex)
-            {
-                Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
-                var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView : {ex}");
-            }
-        }
-        private async void rdoDeactive_Checked(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                List<Model.User> users = new List<Model.User>();
-
-                if (rdoDeactive.IsChecked == true)
-                {
-                    users = Logic.DataAccess.GetUsers().Where(u => u.UserActivated == false).ToList();
-                }
-                this.DataContext = users;
-            }
-            catch (Exception ex)
-            {
-                Common.LOGGER.Error($"예외 발생 AccountView : {ex}");
-                var metroWindow = Application.Current.MainWindow as MetroWindow;
-                await metroWindow.ShowMessageAsync("예외", $"예외 발생 UserView : {ex}");
-            }
         }
     }
 }

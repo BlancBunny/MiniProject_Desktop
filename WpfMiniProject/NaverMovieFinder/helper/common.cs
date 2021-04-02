@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NaverMovieFinder.helper
@@ -12,8 +13,6 @@ namespace NaverMovieFinder.helper
     class common
     {
         public static readonly Logger LOGGER = LogManager.GetCurrentClassLogger();
-
-
         public static string GetApiResult(string openApiUrl, string clientID, string clientSecret)
         {
             var result = "";
@@ -38,6 +37,16 @@ namespace NaverMovieFinder.helper
                 LOGGER.Error($"예외 발생 : {ex}");
             }
             return result;
+        }
+
+        public static string StripHtmlTag(String text)
+        {
+            return Regex.Replace(text, @"<(.|\n)*?>", ""); // HTML 태그 삭제
+        }
+        public static string StripPipe(string text)
+        {
+            if (text == "") return "";
+            else return text.Substring(0, text.LastIndexOf("|")).Replace("|", ", ");
         }
     }
 }

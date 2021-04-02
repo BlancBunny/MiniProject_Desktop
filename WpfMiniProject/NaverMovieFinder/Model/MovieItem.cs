@@ -17,7 +17,6 @@ namespace NaverMovieFinder.Model
         public string Actor { get; set; }
         public string UserRating { get; set; }
 
-
         public MovieItem(string title, string link, string image, string subTitle, 
             string pubDate, string director, string actor, string userRating)
         {

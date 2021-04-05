@@ -24,5 +24,7 @@ namespace NaverMovieFinder.Model
         public string Actor { get; set; }
         public string UserRating { get; set; }
         public Nullable<System.DateTime> RegDate { get; set; }
+
+        
     }
 }

@@ -1,0 +1,43 @@
+﻿<mah:MetroWindow x:Class="NaverMovieFinder.TrailerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NaverMovieFinder"
+        mc:Ignorable="d"
+        Title="TrailerWindow" Height="350" Width="800" Loaded="MetroWindow_Loaded" Closing="MetroWindow_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Name="lblMovieName" FontSize="16" Margin="5" Style="{StaticResource MahApps.Styles.Label}"/>
+        <ListView Grid.Column="0" Grid.Row="1" Style="{StaticResource MahApps.Styles.ListView}"
+                  Name="lsvYoutubeSearch" MouseDoubleClick="lsvYoutubeSearch_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="썸네일">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Thumbnail}" Width="100"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="Auto" Header="타이틀" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Width="Auto" Header="제작자" DisplayMemberBinding="{Binding Author}"/>
+                    <GridViewColumn Width="Auto" Header="링크" DisplayMemberBinding="{Binding URL}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <WebBrowser Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
+                    Margin="5" Name="brwYoutubeWatch">
+            
+        </WebBrowser>
+    </Grid>
+</mah:MetroWindow>

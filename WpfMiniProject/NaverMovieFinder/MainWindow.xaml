@@ -7,7 +7,8 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:NaverMovieFinder"
         mc:Ignorable="d"
-        Title="Naver Movie Finder" Height="720" Width="1280" Icon="youtube.ico">
+        Title="Naver Movie Finder" Height="720" Width="1280" Loaded="MetroWindow_Loaded" 
+        Closing="MetroWindow_Closing" >
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <Image Source="naver.ico"/>
@@ -114,7 +115,8 @@
             </Button>
             <Button Name="btnNaverMovieLink" Content="네이버 영화"
                     Margin="5,10" Width="130" FontSize="13"
-                    Background="#2DB400" Foreground="White">
+                    Background="#2DB400" Foreground="White"
+                    Click="btnNaverMovieLink_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
@@ -126,7 +128,8 @@
             </Button>
             <Button Name="btnWatchTrailer" Content="예고편 보기"
                     Margin="5,10" Width="130" FontSize="13"
-                    Background="#2DB400" Foreground="White">
+                    Background="#2DB400" Foreground="White"
+                    Click="btnWatchTrailer_Click">
                 <Button.ContentTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="5,0,0,0">

@@ -12,6 +12,7 @@ namespace NaverMovieFinder.helper
 {
     class common
     {
+        public static bool isFavorite = false;
         public static readonly Logger LOGGER = LogManager.GetCurrentClassLogger();
         public static string GetApiResult(string openApiUrl, string clientID, string clientSecret)
         {

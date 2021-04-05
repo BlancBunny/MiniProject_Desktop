@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NaverMovieFinder.Model
 {
-    class MovieItem
+    public class MovieItem 
     {
         public string Title { get; set; }
         public string Link { get; set; }

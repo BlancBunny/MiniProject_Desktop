@@ -10,49 +10,66 @@ using System.Windows.Navigation;
 
 namespace WpfSmsApp.View.Store
 {
-    public partial class StoreAdd : Page
+    public partial class StoreEdit : Page
     {
         private bool isValid = true;
-        public StoreAdd()
+        private int StoreID { get; set; }
+        private Model.Store CurrentStore { get; set; }
+
+        public StoreEdit()
         {
             InitializeComponent();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        public StoreEdit(int storeID) : this()
         {
-                lblStoreName.Visibility = lblStoreLocation.Visibility =
-                    Visibility.Hidden;
-
-                txtStoreName.Focus();
+            StoreID = storeID;
         }
 
-        private async void btnAdd_Click(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblStoreName.Visibility = lblStoreLocation.Visibility = Visibility.Hidden;
+            txtStoreName.Text = txtStoreLocation.Text = "";
+            txtStoreName.Focus();
+
+            try
+            {
+                CurrentStore = Logic.DataAccess.GetStores().Where(s => s.StoreID.Equals(StoreID)).FirstOrDefault();
+                txtStoreID.Text = CurrentStore.StoreID.ToString();
+                txtStoreName.Text = CurrentStore.StoreName.ToString();
+                txtStoreLocation.Text = CurrentStore.StoreLocation.ToString();
+                // store 테이블로부터 내용을 읽어옴.
+            }
+            catch (Exception ex)
+            {
+                Common.LOGGER.Error($"예외 발생 StoreEdit_Page_Loaded : 예외 발생 {ex}");
+            }
+        }
+        private async void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             lblStoreName.Visibility = lblStoreLocation.Visibility = Visibility.Hidden;
             isValid = IsValidInput();
-            
-            
+
             if (isValid)
             {
-                var store = new Model.Store();
                 // MessageBox.Show("DB 입력 처리");
 
-                store.StoreName = txtStoreName.Text;
-                store.StoreLocation = txtStoreLocation.Text;
+                CurrentStore.StoreName = txtStoreName.Text;
+                CurrentStore.StoreLocation = txtStoreLocation.Text;
                 
                 try
                 {
-                    var result = Logic.DataAccess.SetScore(store);
+                    var result = Logic.DataAccess.SetScore(CurrentStore);
                     var metroWindow = Application.Current.MainWindow as MetroWindow;
                     if (result == 0)
                     {
                         Common.LOGGER.Error("오류", "StoreAdd_btnAdd_Click 오류 발생");
-                        await metroWindow.ShowMessageAsync("입력 실패", "창고 입력에 문제가 발생했습니다. \n관리자에게 문의하세요.",
+                        await metroWindow.ShowMessageAsync("수정 실패", "창고 수정에 문제가 발생했습니다. \n관리자에게 문의하세요.",
                             MessageDialogStyle.Affirmative, null);
                     }
                     else
                     {
-                        await metroWindow.ShowMessageAsync("창고 입력 완료", "",
+                        await metroWindow.ShowMessageAsync("창고 수정 완료", "",
                             MessageDialogStyle.Affirmative, null);
                         NavigationService.Navigate(new StoreView());
                     }
@@ -60,7 +77,7 @@ namespace WpfSmsApp.View.Store
                 catch (Exception ex)
                 {
                     var metroWindow = Application.Current.MainWindow as MetroWindow;
-                    await metroWindow.ShowMessageAsync("예외", $"예외 발생 StoreAdd_btnAdd_Click : {ex.Message}");
+                    await metroWindow.ShowMessageAsync("예외", $"예외 발생 StoreEdit_btnEdit_Click : {ex.Message}");
                     Common.LOGGER.Error($"예외 발생 StoreAdd_btnAdd_Click : {ex}");
                 }
 
@@ -70,8 +87,16 @@ namespace WpfSmsApp.View.Store
         {
             NavigationService.GoBack();
         }
+        private void txtStoreName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            isValid = IsValidInput();
+        }
+        private void txtStoreLocation_LostFocus(object sender, RoutedEventArgs e)
+        {
+            isValid = IsValidInput();
+        }
 
-        
+
 
         public bool IsValidInput()
         {
@@ -101,16 +126,6 @@ namespace WpfSmsApp.View.Store
                 isValid = false;
             }
             return isValid;
-        }
-
-        private void txtStoreName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            isValid = IsValidInput();
-        }
-
-        private void txtStoreLocation_LostFocus(object sender, RoutedEventArgs e)
-        {
-            isValid = IsValidInput();
         }
     }
 }

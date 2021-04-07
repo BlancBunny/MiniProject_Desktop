@@ -31,6 +31,8 @@ namespace NaverMovieFinder
         {
             InitializeComponent();
         }
+
+
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
             common.isFavorite = false;
@@ -168,11 +170,6 @@ namespace NaverMovieFinder
             this.DataContext = null;
             IsFavorite();
         }
-        
-
-        
-        
-
         private async void btnDeleteWatchList_Click(object sender, RoutedEventArgs e)
         {
             if (grdData.SelectedItems.Count == 0)
@@ -194,6 +191,94 @@ namespace NaverMovieFinder
 
             btnViewWatchList_Click(sender, e);
         }
+        private async void btnNaverMovieLink_Click(object sender, RoutedEventArgs e)
+        {
+            if (grdData.SelectedItems.Count == 0)
+            {
+                await this.ShowMessageAsync("네이버영화", "영화를 선택하세요.");
+                return;
+            }
+            if (grdData.SelectedItems.Count > 1)
+            {
+                await this.ShowMessageAsync("네이버영화", "영화를 하나만 선택하세요.");
+                return;
+            }
+
+            string linkUrl = "";
+            if (common.isFavorite) // 즐겨찾기 상태
+            {
+                var item = grdData.SelectedItem as FavoriteMovies;
+                linkUrl = item.Link;
+            }
+            else // 네이버 API 검색 결과
+            {
+                var item = grdData.SelectedItem as MovieItem;
+                linkUrl = item.Link;
+            }
+
+            Process.Start(linkUrl);
+        }
+        private async void btnWatchTrailer_Click(object sender, RoutedEventArgs e)
+        {
+            if (grdData.SelectedItems.Count == 0)
+            {
+                await this.ShowMessageAsync("오류", "영화를 선택하세요.");
+                return;
+            }
+            if (grdData.SelectedItems.Count > 1)
+            {
+                await this.ShowMessageAsync("오류", "영화를 하나만 선택하세요.");
+                return;
+            }
+
+            string movieName = "";
+            if (common.isFavorite)
+            {
+                var item = grdData.SelectedItem as FavoriteMovies;
+                movieName = item.Title;
+            }
+            else
+            {
+                var item = grdData.SelectedItem as MovieItem;
+                movieName = item.Title;
+            }
+
+            var trailerWindow = new TrailerWindow(movieName);
+            trailerWindow.Owner = this;
+            trailerWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            trailerWindow.ShowDialog();
+        }
+        private async void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            var result = await this.ShowMessageAsync(this.Title, "종료하시겠습니까?", MessageDialogStyle.AffirmativeAndNegative, null);
+            if (result == MessageDialogResult.Negative) return;
+            else Application.Current.Shutdown();
+        }
+
+
+
+
+
+
+#region CustomMethod
+
+        /// <summary>
+        /// 즐겨찾기 목록 불러오기 (Entity Framework)
+        /// </summary>
+        /// <returns></returns>
+        private List<FavoriteMovies> FavoriteList()
+        {
+            // List<MovieItem> movies = new List<MovieItem>();
+            List<FavoriteMovies> favorites = new List<FavoriteMovies>();
+
+            using (var ctx = new OpenApiLabEntities())
+            {
+                favorites = ctx.FavoriteMovies.ToList();
+            }
+            return favorites;
+        }
+
 
         /// <summary>
         /// Naver Api 
@@ -237,110 +322,6 @@ namespace NaverMovieFinder
             grdData.DataContext = movieItems;
         }
 
-        private async void btnNaverMovieLink_Click(object sender, RoutedEventArgs e)
-        {
-            if (grdData.SelectedItems.Count == 0)
-            {
-                await this.ShowMessageAsync("네이버영화", "영화를 선택하세요.");
-                return;
-            }
-            if (grdData.SelectedItems.Count > 1)
-            {
-                await this.ShowMessageAsync("네이버영화", "영화를 하나만 선택하세요.");
-                return;
-            }
-
-            string linkUrl = "";
-            if (common.isFavorite) // 즐겨찾기 상태
-            {
-                var item = grdData.SelectedItem as FavoriteMovies;
-                linkUrl = item.Link;
-            }
-            else // 네이버 API 검색 결과
-            {
-                var item = grdData.SelectedItem as MovieItem;
-                linkUrl = item.Link;
-            }
-
-            Process.Start(linkUrl);
-        }
-
-        private async void btnWatchTrailer_Click(object sender, RoutedEventArgs e)
-        {
-            if (grdData.SelectedItems.Count == 0)
-            {
-                await this.ShowMessageAsync("오류", "영화를 선택하세요.");
-                return;
-            }
-            if (grdData.SelectedItems.Count > 1)
-            {
-                await this.ShowMessageAsync("오류", "영화를 하나만 선택하세요.");
-                return;
-            }
-
-            string movieName = "";
-            if (common.isFavorite)
-            {
-                var item = grdData.SelectedItem as FavoriteMovies;
-                movieName = item.Title;
-            }
-            else
-            {
-                var item = grdData.SelectedItem as MovieItem;
-                movieName = item.Title;
-            }
-
-            var trailerWindow = new TrailerWindow(movieName);
-            trailerWindow.Owner = this;
-            trailerWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            trailerWindow.ShowDialog();
-        }
-
-
-        /// <summary>
-        /// 프로그램 종료 [CancellationToken]
-        /// 이벤트는 비동기 처리기에서 대기하지 않기 때문에 
-        /// Closing 이벤트 발생시 비동기 메시지박스를 띄우지 않고 
-        /// 바로 종료한다. 따라서 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-            CancellationToken token;
-            TaskScheduler ts = TaskScheduler.FromCurrentSynchronizationContext();
-            Task.Factory.StartNew(DialogsBeforeExit, token, TaskCreationOptions.None, ts);
-        }
-
-
-
-        private async void DialogsBeforeExit()
-        {
-            var result = await this.ShowMessageAsync(this.Title, "종료하시겠습니까?", MessageDialogStyle.AffirmativeAndNegative, null);
-            if (result == MessageDialogResult.Negative) return;
-            else Application.Current.Shutdown();
-        }
-
-
-
-
-        /// <summary>
-        /// 즐겨찾기 목록 불러오기 (Entity Framework)
-        /// </summary>
-        /// <returns></returns>
-        private List<FavoriteMovies> FavoriteList()
-        {
-            // List<MovieItem> movies = new List<MovieItem>();
-            List<FavoriteMovies> favorites = new List<FavoriteMovies>();
-
-            using (var ctx = new OpenApiLabEntities())
-            {
-                favorites = ctx.FavoriteMovies.ToList();
-            }
-            return favorites;
-        }
-
 
         /// <summary>
         /// 즐겨찾기/검색창 변환 
@@ -366,5 +347,8 @@ namespace NaverMovieFinder
                 common.isFavorite = true;
             }
         }
+
+#endregion
+
     }
 }

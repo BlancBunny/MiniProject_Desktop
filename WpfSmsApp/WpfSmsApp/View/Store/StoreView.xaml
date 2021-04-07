@@ -100,7 +100,7 @@
             </Grid.RowDefinitions>
             <DataGrid Name="grdStoreData" Grid.Row="1"
                       AutoGenerateColumns="False" SelectionUnit="FullRow" 
-                      GridLinesVisibility="All" ItemsSource="{Binding}"
+                      GridLinesVisibility="All" ItemsSource="{Binding}" IsReadOnly="True"
                       Style="{StaticResource MahApps.Styles.DataGrid.Azure}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="순번" Width="60"

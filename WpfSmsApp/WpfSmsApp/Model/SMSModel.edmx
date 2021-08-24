@@ -325,7 +325,7 @@
           <Property Name="ReaderID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Reader" Relationship="Self.FK_AntennaReader" FromRole="Antenna" ToRole="Reader" />
         </EntityType>
-        <EntityType Name="Barcode">
+        <EntityType Name="data">
           <Key>
             <PropertyRef Name="BarcodeID" />
           </Key>
@@ -463,7 +463,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ItemBarcode">
-          <End Role="Barcode" Type="Self.Barcode" Multiplicity="1" />
+          <End Role="Barcode" Type="SMSModel.data" Multiplicity="1" />
           <End Role="Item" Type="Self.Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Barcode">
@@ -584,7 +584,7 @@
         </Association>
         <EntityContainer Name="SMSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Antenna" EntityType="Self.Antenna" />
-          <EntitySet Name="Barcode" EntityType="Self.Barcode" />
+          <EntitySet Name="Barcode" EntityType="SMSModel.data" />
           <EntitySet Name="BookOut" EntityType="Self.BookOut" />
           <EntitySet Name="BookOutItem" EntityType="Self.BookOutItem" />
           <EntitySet Name="Brand" EntityType="Self.Brand" />
@@ -658,7 +658,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Barcode">
-            <EntityTypeMapping TypeName="SMSModel.Barcode">
+            <EntityTypeMapping TypeName="SMSModel.data">
               <MappingFragment StoreEntitySet="Barcode">
                 <ScalarProperty Name="BarcodeID" ColumnName="BarcodeID" />
                 <ScalarProperty Name="BarcodeNumber" ColumnName="BarcodeNumber" />

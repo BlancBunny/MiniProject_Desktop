@@ -202,6 +202,9 @@
     </ApplicationDefinition>
     <Compile Include="Helper\NameConverter.cs" />
     <Compile Include="Logic\DataAccess.cs" />
+    <Compile Include="Model\data.cs">
+      <DependentUpon>SMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\StockStore.cs" />
     <Compile Include="View\Store\StoreEdit.xaml.cs">
       <DependentUpon>StoreEdit.xaml</DependentUpon>
@@ -289,9 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Antenna.cs">
-      <DependentUpon>SMSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Barcode.cs">
       <DependentUpon>SMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\BookOut.cs">

@@ -26,7 +26,7 @@ namespace WpfSmsApp.Model
         }
     
         public virtual DbSet<Antenna> Antenna { get; set; }
-        public virtual DbSet<Barcode> Barcode { get; set; }
+        public virtual DbSet<data> Barcode { get; set; }
         public virtual DbSet<BookOut> BookOut { get; set; }
         public virtual DbSet<BookOutItem> BookOutItem { get; set; }
         public virtual DbSet<Brand> Brand { get; set; }

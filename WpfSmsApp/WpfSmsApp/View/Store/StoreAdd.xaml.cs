@@ -71,7 +71,18 @@ namespace WpfSmsApp.View.Store
             NavigationService.GoBack();
         }
 
-        
+
+        private void txtStoreName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            isValid = IsValidInput();
+        }
+
+        private void txtStoreLocation_LostFocus(object sender, RoutedEventArgs e)
+        {
+            isValid = IsValidInput();
+        }
+
+
 
         public bool IsValidInput()
         {
@@ -101,16 +112,6 @@ namespace WpfSmsApp.View.Store
                 isValid = false;
             }
             return isValid;
-        }
-
-        private void txtStoreName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            isValid = IsValidInput();
-        }
-
-        private void txtStoreLocation_LostFocus(object sender, RoutedEventArgs e)
-        {
-            isValid = IsValidInput();
         }
     }
 }

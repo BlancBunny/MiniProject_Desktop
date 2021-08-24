@@ -30,7 +30,7 @@ namespace WpfSmsApp.Model
         public int BrandID { get; set; }
         public int CategoryID { get; set; }
     
-        public virtual Barcode Barcode { get; set; }
+        public virtual data Barcode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BookOutItem> BookOutItem { get; set; }
         public virtual Brand Brand { get; set; }
